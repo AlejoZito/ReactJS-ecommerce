@@ -6,10 +6,8 @@ import ItemGrid from './components/ItemGrid';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <NavBar />
-        <ItemGrid />
-      </header>
+      <NavBar><h2>Un titulo</h2></NavBar>
+      <ItemGrid />
     </div>
   );
 }

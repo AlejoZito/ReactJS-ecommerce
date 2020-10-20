@@ -40,28 +40,31 @@ const sections = [
     }
 ]
 
-function NavBar() {
+function NavBar({children}) {
     const classes = useStyles();
 
     return (
-        <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-                <img className={classes.toolbarTitle} src="casio-logo.svg"/>
-                {/* <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+        <header className="App-header">
+            <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+                <Toolbar className={classes.toolbar}>
+                    <img className={classes.toolbarTitle} src="casio-logo.svg" />
+                    {/* <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                     Casio
                 </Typography> */}
-                <nav>
-                    {sections.map((section)=>(
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                        {section.title}
-                        </Link>
-                    ))}
-                </nav>
-                {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
+                    <nav>
+                        {sections.map((section) => (
+                            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+                                {section.title}
+                            </Link>
+                        ))}
+                        {children}
+                    </nav>
+                    {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
                     Login
                 </Button> */}
-            </Toolbar>
-        </AppBar>
+                </Toolbar>
+            </AppBar>
+        </header>
     );
 }
 
