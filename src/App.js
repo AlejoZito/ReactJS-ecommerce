@@ -6,7 +6,9 @@ import ItemGrid from './components/ItemGrid';
 function App() {
   return (
     <div className="App">
-      <NavBar><h2>Un titulo</h2></NavBar>
+      <NavBar>
+        <h2>Un titulo</h2>
+      </NavBar>
       <ItemGrid />
     </div>
   );

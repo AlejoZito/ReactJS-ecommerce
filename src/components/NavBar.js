@@ -5,6 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
+import CartWidget from './CartWidget'
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -26,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     link: {
         margin: theme.spacing(1, 1.5),
     },
+    cartWidget:{
+        backgroundColor: red
+    }
 }));
 
 const sections = [
@@ -57,11 +62,11 @@ function NavBar({children}) {
                                 {section.title}
                             </Link>
                         ))}
-                        {children}
                     </nav>
                     {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
                     Login
                 </Button> */}
+                <CartWidget />
                 </Toolbar>
             </AppBar>
         </header>
