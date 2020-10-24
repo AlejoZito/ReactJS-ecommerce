@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         margin: theme.spacing(1, 1.5),
     },
-    cartWidget:{
+    cartWidget: {
         backgroundColor: red
     }
 }));
@@ -45,7 +45,7 @@ const sections = [
     }
 ]
 
-function NavBar({children}) {
+function NavBar({ children }) {
     const classes = useStyles();
 
     return (
@@ -66,7 +66,7 @@ function NavBar({children}) {
                     {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
                     Login
                 </Button> */}
-                <CartWidget />
+                    <CartWidget style={{ backgroundColor:"red",marginLeft:"auto" }} itemCount="1" />
                 </Toolbar>
             </AppBar>
         </header>
