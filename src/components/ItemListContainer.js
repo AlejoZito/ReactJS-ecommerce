@@ -31,24 +31,30 @@ const tileData = [
         price: '5050',
     },
     {
-        img: 'img/watch_01.png',
+        img: 'img/watch_02.jpg',
         title: 'Casio',
         price: '3500',
     },
     {
-        img: 'img/watch_01.png',
+        img: 'img/watch_03.jpg',
         title: 'Casio',
         price: '4500',
     },
     {
-        img: 'img/watch_01.png',
+        img: 'img/watch_04.jpg',
         title: 'Casio',
         price: '9000',
     },
 ]
 
-function ItemListContainer({title}) {
+function ItemListContainer({title, onAdd}) {
     const classes = useStyles();
+
+    const handleItemClick = ()=>{
+        console.log(title)
+        console.log(onAdd)
+        onAdd()
+    }
 
     return (
         <div className={classes.root}>
@@ -63,7 +69,7 @@ function ItemListContainer({title}) {
                             title={tile.title}
                             subtitle={<span>$: {tile.price}</span>}
                             actionIcon={
-                                <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
+                                <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={onAdd}>
                                     <AddShoppingCartIcon />
                                 </IconButton>
                             }
