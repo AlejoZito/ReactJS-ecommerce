@@ -1,15 +1,17 @@
 import React from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
-import ItemGrid from './components/ItemGrid';
+import ItemListContainer from './components/ItemListContainer';
+
+const itemList = []
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <NavBar />
-        <ItemGrid />
-      </header>
+      <NavBar>
+        <h2>Un titulo</h2>
+      </NavBar>
+      <ItemListContainer title="Productos" />
     </div>
   );
 }
