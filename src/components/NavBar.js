@@ -45,7 +45,7 @@ const sections = [
     }
 ]
 
-function NavBar() {
+function NavBar({itemCount}) {
     const classes = useStyles();
 
     return (
@@ -63,7 +63,7 @@ function NavBar() {
                     {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
                     Login
                 </Button> */}
-                    <CartWidget itemCount="1" />
+                    <CartWidget itemCount={itemCount} />
                 </Toolbar>
             </AppBar>
         </header>
