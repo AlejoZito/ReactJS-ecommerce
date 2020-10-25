@@ -45,7 +45,7 @@ const sections = [
     }
 ]
 
-function NavBar({ children }) {
+function NavBar() {
     const classes = useStyles();
 
     return (
@@ -53,9 +53,6 @@ function NavBar({ children }) {
             <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <img className={classes.toolbarTitle} src="casio-logo.svg" />
-                    {/* <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                    Casio
-                </Typography> */}
                     <nav>
                         {sections.map((section) => (
                             <Link variant="button" color="textPrimary" href="#" className={classes.link}>
@@ -66,7 +63,7 @@ function NavBar({ children }) {
                     {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
                     Login
                 </Button> */}
-                    <CartWidget style={{ backgroundColor:"red",marginLeft:"auto" }} itemCount="1" />
+                    <CartWidget itemCount="1" />
                 </Toolbar>
             </AppBar>
         </header>
