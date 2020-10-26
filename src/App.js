@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from "react";
 import './App.css';
 import NavBar from './components/NavBar'
-import ItemGrid from './components/ItemGrid';
+import ItemListContainer from './components/ItemListContainer';
+
+const itemList = []
 
 function App() {
+
+  const [itemCount, setItemCount] = useState(0);
+
+  function addItem (){
+    setItemCount(itemCount + 1);
+    console.log(itemCount);
+  }
+
   return (
     <div className="App">
-      <NavBar><h2>Un titulo</h2></NavBar>
-      <ItemGrid />
+      <NavBar itemCount={itemCount} />
+      <ItemListContainer title="Productos" onAdd={addItem} />
     </div>
   );
 }
