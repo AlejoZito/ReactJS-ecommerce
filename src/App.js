@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './App.css';
 import NavBar from './components/NavBar'
 import ItemListContainer from './components/ItemListContainer';
+import ItemCount from './components/ItemCount'
 
 const itemList = []
 
@@ -9,15 +10,19 @@ function App() {
 
   const [itemCount, setItemCount] = useState(0);
 
-  function addItem (){
-    setItemCount(itemCount + 1);
+  const stock = 15;
+  const initialCount = 2;
+
+  function addItem (quantityPurchased){
+    setItemCount(quantityPurchased);
     console.log(itemCount);
   }
 
   return (
     <div className="App">
       <NavBar itemCount={itemCount} />
-      <ItemListContainer title="Productos" onAdd={addItem} />
+      <ItemListContainer title="Productos"/>
+      <ItemCount stock={stock} initial={initialCount} onAdd={addItem} />
     </div>
   );
 }
