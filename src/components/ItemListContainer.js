@@ -1,83 +1,55 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
-    },
-    gridList: {
-        width: 500,
-        height: 450,
-    },
-    icon: {
-        color: 'rgba(255, 255, 255, 0.54)',
-    },
-}));
+import React, { useEffect, useState } from 'react';
+import ItemList from './ItemList';
 
 const tileData = [
     {
+        id: 1,
         img: 'img/watch_01.png',
         title: 'Casio',
         price: '5050',
     },
     {
+        id: 2,
         img: 'img/watch_02.jpg',
         title: 'Casio',
         price: '3500',
     },
     {
+        id: 3,
         img: 'img/watch_03.jpg',
         title: 'Casio',
         price: '4500',
     },
     {
+        id: 4,
         img: 'img/watch_04.jpg',
         title: 'Casio',
         price: '9000',
     },
 ]
 
-function ItemListContainer({title, onAdd}) {
-    const classes = useStyles();
+//Fetch data promise
+const getItems = () => {
+    return new Promise((res, rej) => {
+        setTimeout(() => res(tileData), 2000);
+    });
+}
 
-    const handleItemClick = ()=>{
-        console.log(title)
-        console.log(onAdd)
-        onAdd()
-    }
+function ItemListContainer({ title, onAdd }) {
+
+    const [itemList, setItemList] = useState([])
+
+    useEffect(() => {
+        getItems().then(result => {
+            console.log("Recibo valores de promise")
+            setItemList(result);
+        }, err => {
+            console.log(err);
+        })
+    },[]);
 
     return (
-        <div className={classes.root}>
-            <GridList cellHeight={180} className={classes.gridList}>
-                <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                    <ListSubheader component="div">{title}</ListSubheader>
-                </GridListTile>
-                {tileData.map((tile) => (
-                    <GridListTile key={tile.img}>
-                        <img src={tile.img} alt={tile.title} />
-                        <GridListTileBar
-                            title={tile.title}
-                            subtitle={<span>$: {tile.price}</span>}
-                            actionIcon={
-                                <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={onAdd}>
-                                    <AddShoppingCartIcon />
-                                </IconButton>
-                            }
-                        />
-                    </GridListTile>
-                ))}
-            </GridList>
-        </div>
+        <ItemList title="Productos" itemDataList={itemList} onAdd={onAdd} />
     );
 }
 
