@@ -16,7 +16,6 @@ export default function Item({ data, onAdd, cols, ...other }) {
     const [itemData, setItemData] = useState({});
 
     useEffect(() => {
-        console.log("Init item");
         setItemData(data);
     }, []);
 

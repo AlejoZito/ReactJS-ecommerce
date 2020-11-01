@@ -3,6 +3,7 @@ import './App.css';
 import NavBar from './components/NavBar'
 import ItemListContainer from './components/ItemListContainer';
 import ItemCount from './components/ItemCount'
+import ItemDetailContainer from "./components/ItemDetailContainer";
 
 const itemList = []
 
@@ -23,6 +24,7 @@ function App() {
       <NavBar itemCount={itemCount} />
       <ItemListContainer title="Productos"/>
       <ItemCount stock={stock} initial={initialCount} onAdd={addItem} />
+      <ItemDetailContainer itemId={1} />
     </div>
   );
 }

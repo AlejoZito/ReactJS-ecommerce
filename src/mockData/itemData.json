@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "img": "img/watch_01.png",
+        "title": "Casio",
+        "price": "5050",
+        "description": "Founded in Tokyo, Japanese brand Casio offer a collection of watches that spans both retro and contemporary styles. Known for their innovative features, such as calculator functions, Casio watches adopt a bold use of colour to bring a modern edge to their collections of digital and analogue watches."
+    },
+    {
+        "id": 2,
+        "img": "img/watch_02.jpg",
+        "title": "F-91W",
+        "price": "3500",
+        "description": "Founded in Tokyo, Japanese brand Casio offer a collection of watches that spans both retro and contemporary styles. Known for their innovative features, such as calculator functions, Casio watches adopt a bold use of colour to bring a modern edge to their collections of digital and analogue watches."
+    },
+    {
+        "id": 3,
+        "img": "img/watch_03.jpg",
+        "title": "Casio",
+        "price": "4500",
+        "description": "Founded in Tokyo, Japanese brand Casio offer a collection of watches that spans both retro and contemporary styles. Known for their innovative features, such as calculator functions, Casio watches adopt a bold use of colour to bring a modern edge to their collections of digital and analogue watches."
+    },
+    {
+        "id": 4,
+        "img": "img/watch_04.jpg",
+        "title": "Casio",
+        "price": "9000",
+        "description": "Founded in Tokyo, Japanese brand Casio offer a collection of watches that spans both retro and contemporary styles. Known for their innovative features, such as calculator functions, Casio watches adopt a bold use of colour to bring a modern edge to their collections of digital and analogue watches."
+    }
+]
