@@ -5,7 +5,7 @@ import data from '../mockData/itemData.json'
 //Fetch data promise
 const getItems = () => {
     return new Promise((res, rej) => {
-        setTimeout(() => res(data), 2000);
+        setTimeout(() => res(data), 0);
     });
 }
 

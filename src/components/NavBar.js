@@ -4,8 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import CartWidget from './CartWidget'
+import { Link } from 'react-router-dom'
 import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
     link: {
         margin: theme.spacing(1, 1.5),
     },
-    cartWidget: {
-        backgroundColor: red
+    cartLink: {
+        marginLeft: 'auto',
     }
 }));
 
@@ -45,14 +45,16 @@ const sections = [
     }
 ]
 
-function NavBar({itemCount}) {
+function NavBar({ itemCount }) {
     const classes = useStyles();
 
     return (
         <header className="App-header">
             <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
-                    <img className={classes.toolbarTitle} src="casio-logo.svg" />
+                    <Link to='/'>
+                        <img className={classes.toolbarTitle} src="/casio-logo.svg" />
+                    </Link>
                     <nav>
                         {sections.map((section) => (
                             <Link variant="button" color="textPrimary" href="#" className={classes.link}>
@@ -63,7 +65,9 @@ function NavBar({itemCount}) {
                     {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
                     Login
                 </Button> */}
-                    <CartWidget itemCount={itemCount} />
+                    <Link className={classes.cartLink} to='/cart'>
+                        <CartWidget itemCount={itemCount} />
+                    </Link>
                 </Toolbar>
             </AppBar>
         </header>
