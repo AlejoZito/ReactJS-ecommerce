@@ -4,6 +4,8 @@ import NavBar from './components/NavBar'
 import ItemListContainer from './components/ItemListContainer';
 import ItemCount from './components/ItemCount'
 import ItemDetailContainer from "./components/ItemDetailContainer";
+import Cart from "./components/Cart";
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 const itemList = []
 
@@ -14,18 +16,28 @@ function App() {
   const stock = 15;
   const initialCount = 2;
 
-  function addItem (quantityPurchased){
+  function addItem(quantityPurchased) {
     setItemCount(quantityPurchased);
     console.log(itemCount);
   }
 
   return (
-    <div className="App">
+    <BrowserRouter>
       <NavBar itemCount={itemCount} />
-      <ItemListContainer title="Productos"/>
-      <ItemCount stock={stock} initial={initialCount} onAdd={addItem} />
-      <ItemDetailContainer itemId={1} />
-    </div>
+      <Switch>
+        <Route exact path='/'>
+          <ItemListContainer title="Productos" />
+        </Route>
+        <Route exact path='/detail/:id'>
+          <ItemCount stock={stock} initial={initialCount} onAdd={addItem} />
+          <ItemDetailContainer/>
+        </Route>
+        <Route exact path='/cart'>
+          <Cart />
+        </Route>
+        
+      </Switch>
+    </BrowserRouter>
   );
 }
 

@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -32,6 +33,7 @@ export default function Item({ data, onAdd, cols, ...other }) {
                         className={classes.icon}
                         onClick={onAdd}>
                         <AddShoppingCartIcon />
+                        <Link to={`/detail/${itemData.id}`}>Un link</Link>
                     </IconButton>
                 }
             />
