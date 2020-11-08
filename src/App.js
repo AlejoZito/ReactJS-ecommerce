@@ -11,31 +11,38 @@ const itemList = []
 
 function App() {
 
-  const [itemCount, setItemCount] = useState(0);
+  const [totalItemCount, setTotalItemCount] = useState(0);
 
-  const stock = 15;
-  const initialCount = 2;
+  //Items in cart is a dictionary with { key: itemId, value: quantity}
+  const [itemsInCart, setItemsInCart] = useState({});
 
-  function addItem(quantityPurchased) {
-    setItemCount(quantityPurchased);
-    console.log(itemCount);
+  function addItem(itemId, quantity) {
+    const newCart = { ...itemsInCart, [itemId]: quantity }
+    
+    let sum = 0;
+    for (let el in newCart) {
+      if (newCart.hasOwnProperty(el)) {
+        sum += parseInt(newCart[el]);
+      }
+    }
+    
+    setItemsInCart(newCart);
+    setTotalItemCount(sum);
   }
-
   return (
     <BrowserRouter>
-      <NavBar itemCount={itemCount} />
+      <NavBar itemCount={totalItemCount} />
       <Switch>
         <Route exact path='/'>
           <ItemListContainer title="Productos" />
         </Route>
         <Route exact path='/detail/:id'>
-          <ItemCount stock={stock} initial={initialCount} onAdd={addItem} />
-          <ItemDetailContainer/>
+          <ItemDetailContainer onAdd={addItem}/>
         </Route>
         <Route exact path='/cart'>
-          <Cart />
+          <Cart itemList={itemsInCart} />
         </Route>
-        
+
       </Switch>
     </BrowserRouter>
   );

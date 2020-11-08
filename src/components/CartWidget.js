@@ -5,7 +5,7 @@ import Badge from '@material-ui/core/Badge'
 
 function CartWidget({itemCount}) {
     return (
-        <Link variant="button" style={{ marginLeft:"auto" }} href="#">
+        <Link variant="button" href="#">
             <Badge badgeContent={itemCount} color="secondary">
                 <ShoppingCartIcon color="primary" />
             </Badge>
