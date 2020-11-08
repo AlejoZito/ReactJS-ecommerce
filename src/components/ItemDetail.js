@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ItemCount from './ItemCount';
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
     root: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function ItemDetail({ data, onAdd }) {
+export default function ItemDetail({ data, addItem }) {
 
     const [detailData, setDetailData] = useState({});
     const [addedToCart, setAddedToCart] = useState(false);
@@ -52,16 +53,19 @@ export default function ItemDetail({ data, onAdd }) {
     const stock = 20;
 
     useEffect(() => {
-        console.log("Seteo item detail data");
-        console.log(data);
         setDetailData(data);
-        console.log(detailData.img)
     }, [data]);
 
-    // function addItem(quantityPurchased) {
-    //     setItemCount(quantityPurchased);
-    //     console.log(itemCount);
-    // }
+    function onAdd(itemId, quantity) {
+        if (quantity > 0) {
+            setAddedToCart(true);
+        } else {
+            setAddedToCart(false);
+        }
+
+        //Always fire event
+        addItem(itemId, quantity);
+    }
 
     return (
         <Card className={classes.root}>
@@ -84,7 +88,12 @@ export default function ItemDetail({ data, onAdd }) {
                     {detailData.description}
                 </Typography>
 
-                <ItemCount id={data.id} stock={stock} initial={initialCount} onAdd={onAdd} />
+                {
+                    addedToCart ?
+                        <Link className={classes.cartLink} to='/cart'><Button>Terminar mi compra</Button></Link>
+                        :
+                        <ItemCount id={data.id} stock={stock} initial={initialCount} onAdd={onAdd} />
+                }
             </CardContent>
             <CardActions>
                 <Button size="small">Learn More</Button>

@@ -30,6 +30,6 @@ export default function ItemDetailContainer({onAdd}) {
     }, [id]); //Refresh on id change
 
     return <>
-        <ItemDetail data={detailData} onAdd={onAdd} />
+        <ItemDetail data={detailData} addItem={onAdd} />
     </>
 }

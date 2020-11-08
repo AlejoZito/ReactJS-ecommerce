@@ -12,20 +12,20 @@ const itemList = []
 function App() {
 
   const [totalItemCount, setTotalItemCount] = useState(0);
+
+  //Items in cart is a dictionary with { key: itemId, value: quantity}
   const [itemsInCart, setItemsInCart] = useState({});
 
   function addItem(itemId, quantity) {
     const newCart = { ...itemsInCart, [itemId]: quantity }
     
-    console.log(itemId, quantity);
-
     let sum = 0;
-    for (var el in newCart) {
+    for (let el in newCart) {
       if (newCart.hasOwnProperty(el)) {
         sum += parseInt(newCart[el]);
       }
     }
-    console.log(sum);
+    
     setItemsInCart(newCart);
     setTotalItemCount(sum);
   }
@@ -40,7 +40,7 @@ function App() {
           <ItemDetailContainer onAdd={addItem}/>
         </Route>
         <Route exact path='/cart'>
-          <Cart />
+          <Cart itemList={itemsInCart} />
         </Route>
 
       </Switch>
