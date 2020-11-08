@@ -33,13 +33,15 @@ const useStyles = makeStyles({
     },
 });
 
-export default function ItemCount({ stock, initial, onAdd }) {
+export default function ItemCount({ id, stock, initial, onAdd }) {
 
+    const [itemId, setItemId] = useState(0);
     const [itemCount, setItemCount] = useState(0);
 
     //On component initialize
     useEffect(() => {
-        setItemCount(initial)
+        setItemId(id);
+        setItemCount(initial);
     }, [])
 
     function onIncrement() {
@@ -53,7 +55,7 @@ export default function ItemCount({ stock, initial, onAdd }) {
         }
     }
     function onConfirmAdd(){
-        onAdd(itemCount)
+        onAdd(id, itemCount)
     }
 
     const CustomTextField = withStyles({

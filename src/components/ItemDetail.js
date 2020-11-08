@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import ItemCount from './ItemCount';
 
 const useStyles = makeStyles({
     root: {
@@ -31,20 +32,24 @@ const useStyles = makeStyles({
     },
     mediaOverlay: {
         position: 'absolute',
-        top:0,
-        width:'100%',
-        height:'100%',
+        top: 0,
+        width: '100%',
+        height: '100%',
         background: 'linear-gradient(to top, rgba(224,64,251,1) 11%, rgba(0,212,255,0) 34%)',
     }
 });
 
 
-export default function ItemDetail({ data }) {
+export default function ItemDetail({ data, onAdd }) {
 
     const [detailData, setDetailData] = useState({});
+    const [addedToCart, setAddedToCart] = useState(false);
 
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
+
+    const initialCount = 1;
+    const stock = 20;
 
     useEffect(() => {
         console.log("Seteo item detail data");
@@ -53,26 +58,33 @@ export default function ItemDetail({ data }) {
         console.log(detailData.img)
     }, [data]);
 
+    // function addItem(quantityPurchased) {
+    //     setItemCount(quantityPurchased);
+    //     console.log(itemCount);
+    // }
+
     return (
         <Card className={classes.root}>
-            
+
             <CardMedia
                 className={classes.media}
                 image={detailData.img}
                 title={detailData.title}
                 children={<div className={classes.mediaOverlay} />}
             />
-            
+
             <CardContent>
                 <Typography className={classes.title} color="textPrimary">
                     {detailData.title}
                 </Typography>
-                 <Typography variant="h5" component="h2">
+                <Typography variant="h5" component="h2">
                     $ {detailData.price}
                 </Typography>
                 <Typography variant="body2" component="p">
                     {detailData.description}
-                </Typography> 
+                </Typography>
+
+                <ItemCount id={data.id} stock={stock} initial={initialCount} onAdd={onAdd} />
             </CardContent>
             <CardActions>
                 <Button size="small">Learn More</Button>
