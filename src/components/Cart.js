@@ -8,6 +8,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import data from '../mockData/itemData.json'
+import { useCartContext } from '../context/cartContext';
+import { IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,50 +20,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const fetchDetailData = function (id) {
-    return new Promise((res, rej) => {
-        res(data.find((item) => item.id == id));
-    });
-}
-
-export default function Cart({ itemList }) {
+export default function Cart() {
     const [fetchedItemList, setFetchedItemList] = useState([]);
     const classes = useStyles();
 
-    useEffect(() => {
+    const { itemsInCart, remove } = useCartContext();
 
-        //ToDo falta mostrar cantidades
-
-        const newList = [];
-        const fetchPromiseList = [];
-
-        for (let item in itemList) {
-            //Only fetch new items
-            const foundItem = fetchedItemList.find(i => i.id == item);
-            if (foundItem) {
-                newList.push(foundItem);
-            } else {
-                const fetchPromise = fetchDetailData(item);
-                fetchPromiseList.push(fetchPromise);
-            }
-        }
-
-        Promise.allSettled(fetchPromiseList).then(
-            (results) => {
-                console.log(results)
-                results.forEach((result) => {
-                    console.log(result);
-                    newList.push(result.value);
-                    ;
-                });
-            }
-        ).finally(() => setFetchedItemList(newList))
-
-    }, [itemList]);
+    function onRemove(id){
+        remove(id);
+    }
 
     return (
         <List className={classes.root}>
-            {fetchedItemList.map((item) => {
+            {itemsInCart.map((item) => {
                 console.log(item);
                 const labelId = `checkbox-list-secondary-label-${item.id}`;
                 return (
@@ -73,13 +45,11 @@ export default function Cart({ itemList }) {
                             />
                         </ListItemAvatar>
                         <ListItemText id={labelId} primary={item.title} />
+                        <ListItemText primary={item.quantity} />
                         <ListItemSecondaryAction>
-                            {/* <Checkbox
-                                edge="end"
-                                onChange={handleToggle(value)}
-                                checked={checked.indexOf(value) !== -1}
-                                inputProps={{ 'aria-labelledby': labelId }}
-                            /> */}
+                            <IconButton onClick={()=>{ onRemove(item.id) }} edge="end" aria-label="delete">
+                                <DeleteIcon />
+                            </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
                 );

@@ -11,7 +11,7 @@ const fetchDetailData = function (id) {
     });
 }
 
-export default function ItemDetailContainer({onAdd}) {
+export default function ItemDetailContainer() {
 
     //Routing params
     let { id } = useParams();
@@ -30,6 +30,6 @@ export default function ItemDetailContainer({onAdd}) {
     }, [id]); //Refresh on id change
 
     return <>
-        <ItemDetail data={detailData} addItem={onAdd} />
+        <ItemDetail itemData={detailData} />
     </>
 }

@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ItemCount from './ItemCount';
 import { Link } from 'react-router-dom'
+import { useCartContext } from '../context/cartContext';
 
 const useStyles = makeStyles({
     root: {
@@ -41,10 +42,12 @@ const useStyles = makeStyles({
 });
 
 
-export default function ItemDetail({ data, addItem }) {
+export default function ItemDetail({ itemData }) {
 
     const [detailData, setDetailData] = useState({});
     const [addedToCart, setAddedToCart] = useState(false);
+
+    const { add } = useCartContext();
 
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
@@ -53,10 +56,10 @@ export default function ItemDetail({ data, addItem }) {
     const stock = 20;
 
     useEffect(() => {
-        setDetailData(data);
-    }, [data]);
+        setDetailData(itemData);
+    }, [itemData]);
 
-    function onAdd(itemId, quantity) {
+    function onAdd(quantity) {
         if (quantity > 0) {
             setAddedToCart(true);
         } else {
@@ -64,7 +67,7 @@ export default function ItemDetail({ data, addItem }) {
         }
 
         //Always fire event
-        addItem(itemId, quantity);
+        add(itemData, quantity);
     }
 
     return (
@@ -92,7 +95,7 @@ export default function ItemDetail({ data, addItem }) {
                     addedToCart ?
                         <Link className={classes.cartLink} to='/cart'><Button>Terminar mi compra</Button></Link>
                         :
-                        <ItemCount id={data.id} stock={stock} initial={initialCount} onAdd={onAdd} />
+                        <ItemCount id={itemData.id} stock={stock} initial={initialCount} onAdd={onAdd} />
                 }
             </CardContent>
             <CardActions>

@@ -55,7 +55,7 @@ export default function ItemCount({ id, stock, initial, onAdd }) {
         }
     }
     function onConfirmAdd(){
-        onAdd(id, itemCount)
+        onAdd(itemCount)
     }
 
     const CustomTextField = withStyles({
