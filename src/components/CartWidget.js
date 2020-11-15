@@ -5,11 +5,14 @@ import Badge from '@material-ui/core/Badge'
 import { useCartContext } from '../context/cartContext';
 
 function CartWidget() {
+    const { totalItemCount } = useCartContext();
 
-    const {totalItemCount} = useCartContext();
+    const styles = {
+        display: totalItemCount > 0 ? 'block' : 'none'
+    }
 
     return (
-        <Link variant="button" href="#">
+        <Link style={styles} variant="button" href="#">
             <Badge badgeContent={totalItemCount} color="secondary">
                 <ShoppingCartIcon color="primary" />
             </Badge>

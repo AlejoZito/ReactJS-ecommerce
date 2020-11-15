@@ -8,6 +8,7 @@ export const useCartContext = () => useContext(CartContext);
 export const CartProvider = ({ children, defaultValue }) => {
     const [totalItemCount, setTotalItemCount] = useState(0);
     const [itemsInCart, setItemsInCart] = useState(defaultValue);
+    const [cartTotal, setCartTotal] = useState(0);
 
     function add(item, quantity) {
         const newCart = [...itemsInCart];
@@ -23,29 +24,32 @@ export const CartProvider = ({ children, defaultValue }) => {
         }
 
         setItemsInCart(newCart);
-        updateItemCount(newCart);
+        updateCounters(newCart);
     }
 
     function remove(itemId) {
         if (itemsInCart.length > 0) {
             const newCart = itemsInCart.filter(item => item.id != itemId);
             setItemsInCart(newCart);
-            updateItemCount(newCart);
+            updateCounters(newCart);
         }
     }
 
     //Actualizar cantidad total al modificar el carrito
-    function updateItemCount(items) {
-        let sum = 0;
+    function updateCounters(items) {
+        let countTotal = 0;
+        let costTotal = 0;
         for (let i = 0; i < items.length; i++) {
-            sum += items[i].quantity;
+            countTotal += items[i].quantity;
+            costTotal += items[i].price * items[i].quantity;
         }
-        setTotalItemCount(sum);
+        setTotalItemCount(countTotal);
+        setCartTotal(costTotal);
     }
 
     //Nuestro almacen de estado de la compra
     //Funciona como nuestra propia API
-    return <CartContext.Provider value={{ itemsInCart, totalItemCount, add, remove }}>
+    return <CartContext.Provider value={{ itemsInCart, totalItemCount, cartTotal, add, remove }}>
         {children}
     </CartContext.Provider>
 }
