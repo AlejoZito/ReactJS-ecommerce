@@ -46,17 +46,23 @@ export default function ItemDetail({ itemData }) {
 
     const [detailData, setDetailData] = useState({});
     const [addedToCart, setAddedToCart] = useState(false);
+    const [initialCount, setInitialCount] = useState(1);
 
-    const { add } = useCartContext();
+    const { itemsInCart, add } = useCartContext();
 
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
 
-    const initialCount = 1;
     const stock = 20;
 
     useEffect(() => {
         setDetailData(itemData);
+        
+        const foundItem = itemsInCart.find(el=>el.id == itemData.id);
+        if(foundItem){
+            setInitialCount(foundItem.quantity);
+        }
+
     }, [itemData]);
 
     function onAdd(quantity) {
