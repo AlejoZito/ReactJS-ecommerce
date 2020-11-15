@@ -5,10 +5,14 @@ export const CartContext = React.createContext([])
 export const useCartContext = () => useContext(CartContext);
 
 //High order component
-export const CartProvider = ({ children, defaultValue }) => {
+export const CartProvider = ({ children, defaultValue, initialValue }) => {
     const [totalItemCount, setTotalItemCount] = useState(0);
     const [itemsInCart, setItemsInCart] = useState(defaultValue);
     const [cartTotal, setCartTotal] = useState(0);
+
+    useEffect(()=>{
+        add(initialValue, 1)
+    }, [])
 
     function add(item, quantity) {
         const newCart = [...itemsInCart];

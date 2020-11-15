@@ -9,65 +9,36 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import data from '../mockData/itemData.json'
 import { useCartContext } from '../context/cartContext';
-import { IconButton, Button } from '@material-ui/core';
+import { IconButton, Button, Box, Grid, Paper } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete'
 import { Link } from 'react-router-dom';
+import CartItemList from './CartItemList'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
 
 export default function Cart() {
-    const [fetchedItemList, setFetchedItemList] = useState([]);
-    const classes = useStyles();
 
-    const { itemsInCart, cartTotal, remove } = useCartContext();
-
-    function onRemove(id) {
-        remove(id);
+    const styles ={
+        cartListContainer:{
+            minHeight: '60vh',
+            padding: 20,
+            marginTop: 20,
+            display:'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+        }
     }
 
     return (
-        <>
-        {
-            itemsInCart.length == 0 ?
-                <>
-                    <span>No tenés elementos en el carrito</span>
-                    <Link to='/'><Button>Seguir comprando</Button></Link>
-                </>
-                :
-                <>
-                    <List className={classes.root}>
-                        {itemsInCart.map((item) => {
-                            console.log(item);
-                            const labelId = `checkbox-list-secondary-label-${item.id}`;
-                            return (
-                                <ListItem key={item.id} button>
-                                    <ListItemAvatar>
-                                        <Avatar
-                                            alt={`Avatar n°${item.id}`}
-                                            src={item.img}
-                                            variant={'rounded'}
-                                        />
-                                    </ListItemAvatar>
-                                    <ListItemText id={labelId} primary={item.title} />
-                                    <ListItemText primary={item.quantity} />
-                                    <ListItemSecondaryAction>
-                                        <IconButton onClick={() => { onRemove(item.id) }} edge="end" aria-label="delete">
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                    <h3>Total: ${cartTotal}</h3>
-                </>
-        }
-        </>
+        <Grid
+            container
+            spacing={0}
+            alignItems="center"
+            justify="center">
+            <Grid item xs={12} sm={8}>
+                <Paper elevation={3} style={styles.cartListContainer}>
+                    <CartItemList />
+                </Paper>
+            </Grid>
+        </Grid>
     );
 }
