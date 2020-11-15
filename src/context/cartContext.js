@@ -10,17 +10,18 @@ export const CartProvider = ({ children, defaultValue }) => {
     const [itemsInCart, setItemsInCart] = useState(defaultValue);
 
     function add(item, quantity) {
-        const newCart = itemsInCart;
+        const newCart = [...itemsInCart];
 
         const itemWithQuantity = { ...item, quantity: quantity };
 
-        const i = newCart.findIndex(itemInCart => itemInCart.id === item.id);
+        const i= newCart.findIndex(itemInCart => itemInCart.id == item.id);
+
         if (i > -1) {
-            newCart[i] = { itemWithQuantity };
+            newCart[i] = itemWithQuantity;
         } else {
             newCart.push(itemWithQuantity);
         }
-        
+
         setItemsInCart(newCart);
         updateItemCount(newCart);
     }
@@ -34,7 +35,7 @@ export const CartProvider = ({ children, defaultValue }) => {
     }
 
     //Actualizar cantidad total al modificar el carrito
-    function updateItemCount(items){
+    function updateItemCount(items) {
         let sum = 0;
         for (let i = 0; i < items.length; i++) {
             sum += items[i].quantity;

@@ -42,7 +42,7 @@ export default function ItemCount({ id, stock, initial, onAdd }) {
     useEffect(() => {
         setItemId(id);
         setItemCount(initial);
-    }, [])
+    }, [id, initial])
 
     function onIncrement() {
         if (itemCount < stock) {
