@@ -38,7 +38,7 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Switch>
-          <Route exact path='/'>
+          <Route exact path={['/', '/categories/:categoryId']}>
             <ItemListContainer title="Productos" />
           </Route>
           <Route exact path='/detail/:id'>

@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getFirestore } from '../firebase'
-
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
 
 function ItemListContainer({ title, onAdd }) {
 
     //Routing params
-    console.log(useQuery());
-    let category = useQuery().get('category');
-    console.log(category)
+    let { categoryId } = useParams();
     
     const [itemList, setItemList] = useState([])
 
@@ -20,7 +14,7 @@ function ItemListContainer({ title, onAdd }) {
 
         const db = getFirestore();
         const itemCollection = db.collection("items");
-        const filteredCollection = category ? itemCollection.where("category", "==", category) : itemCollection;
+        const filteredCollection = categoryId ? itemCollection.where("category", "==", categoryId) : itemCollection;
 
         filteredCollection.get().then((querySnapshot) => {
             if (querySnapshot.size === 0) {
