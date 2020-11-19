@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
-import data from '../mockData/itemData.json'
-
-//Fetch data promise
-const getItems = () => {
-    return new Promise((res, rej) => {
-        setTimeout(() => res(data), 0);
-    });
-}
+import { useParams } from 'react-router-dom'
+import { getFirestore } from '../firebase'
 
 function ItemListContainer({ title, onAdd }) {
 
+    //Routing params
+    let { categoryId } = useParams();
+    
     const [itemList, setItemList] = useState([])
 
     useEffect(() => {
-        getItems().then(result => {
-            setItemList(result);
+
+        const db = getFirestore();
+        const itemCollection = db.collection("items");
+        const filteredCollection = categoryId ? itemCollection.where("category", "==", categoryId) : itemCollection;
+
+        filteredCollection.get().then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+                console.log('no results');
+            }
+            setItemList(querySnapshot.docs.map(doc =>
+                ({ id: doc.id, ...doc.data() }))
+            );
         }, err => {
             console.log(err);
         })
-    },[]);
+    }, []);
 
     return (
         <ItemList title="Productos" itemDataList={itemList} onAdd={onAdd} />

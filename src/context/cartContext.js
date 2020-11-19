@@ -10,10 +10,6 @@ export const CartProvider = ({ children, defaultValue, initialValue }) => {
     const [itemsInCart, setItemsInCart] = useState(defaultValue);
     const [cartTotal, setCartTotal] = useState(0);
 
-    useEffect(()=>{
-        add(initialValue, 1)
-    }, [])
-
     function add(item, quantity) {
         const newCart = [...itemsInCart];
 
