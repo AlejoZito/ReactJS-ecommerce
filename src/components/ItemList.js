@@ -29,7 +29,7 @@ export default function ItemList({ title, itemDataList, onAdd }) {
                 <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                     <ListSubheader component="div">{title}</ListSubheader>
                 </GridListTile>
-                {
+                {                    
                     itemDataList.map((item) => <Item data={item} onAdd={onAdd} cols={1} {...item} />)
                 }
             </GridList>
