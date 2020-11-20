@@ -35,13 +35,12 @@ const useStyles = makeStyles((theme) => ({
 
 const sections = [
     {
-        title: 'Relojes'
+        title: 'Vintage',
+        category: 'vintage'
     },
     {
-        title: 'Instrumentos musicales'
-    },
-    {
-        title: 'Calculadoras'
+        title: 'G-Shock',
+        category: 'g-shock'
     }
 ]
 
@@ -57,9 +56,7 @@ function NavBar({ itemCount }) {
                     </Link>
                     <nav>
                         {sections.map((section) => (
-                            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                                {section.title}
-                            </Link>
+                            <Link to={`/categories/${section.category}`} className={classes.link}>{section.title}</Link>
                         ))}
                     </nav>
                     {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>

@@ -36,7 +36,7 @@ function App() {
       "description": "Founded in Tokyo, Japanese brand Casio offer a collection of watches that spans both retro and contemporary styles. Known for their innovative features, such as calculator functions, Casio watches adopt a bold use of colour to bring a modern edge to their collections of digital and analogue watches."
     }}>
       <BrowserRouter>
-        <NavBar />
+      <NavBar />
         <Switch>
           <Route exact path={['/', '/categories/:categoryId']}>
             <ItemListContainer title="Productos" />

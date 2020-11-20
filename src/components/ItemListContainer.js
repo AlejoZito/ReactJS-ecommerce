@@ -7,7 +7,7 @@ function ItemListContainer({ title, onAdd }) {
 
     //Routing params
     let { categoryId } = useParams();
-    
+
     const [itemList, setItemList] = useState([])
 
     useEffect(() => {
@@ -20,17 +20,14 @@ function ItemListContainer({ title, onAdd }) {
             if (querySnapshot.size === 0) {
                 console.log('no results');
             }
-            setItemList(querySnapshot.docs.map(doc =>
-                ({ id: doc.id, ...doc.data() }))
-            );
+            const filteredItems = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setItemList(filteredItems);
         }, err => {
             console.log(err);
         })
-    }, []);
+    }, [categoryId]);
 
-    return (
-        <ItemList title="Productos" itemDataList={itemList} onAdd={onAdd} />
-    );
+    return <ItemList title="Productos" itemDataList={itemList} onAdd={onAdd} />
 }
 
 export default ItemListContainer
