@@ -30,7 +30,7 @@ export default function ItemList({ title, itemDataList, onAdd }) {
                     <ListSubheader component="div">{title}</ListSubheader>
                 </GridListTile>
                 {                    
-                    itemDataList.map((item) => <Item data={item} onAdd={onAdd} cols={1} {...itemDataList} />)
+                    itemDataList.map((item) => <Item data={item} onAdd={onAdd} cols={1} {...item} />)
                 }
             </GridList>
         </div>
