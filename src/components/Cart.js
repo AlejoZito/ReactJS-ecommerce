@@ -5,50 +5,52 @@ import { Button, Grid, Paper } from '@material-ui/core';
 import CartItemList from './CartItemList'
 import { getFirestore } from '../firebase';
 import { useCartContext } from '../context/cartContext';
+import Checkout from './Checkout';
+import PurchaseComplete from './PurchaseComplete';
 
 
 export default function Cart() {
 
-    const { itemsInCart, cartTotal } = useCartContext();
+    const [purchaseComplete, setPurchaseComplete] = useState(false);
+    const [orderId, setOrderId] = useState('');
+    const { itemsInCart, cartTotal, flushCart } = useCartContext();
 
-    async function createOrder() {
-        const newOrder = {
-            buyer: { name: 'Alejo', phone: '+1154645544', email: 'test@mail.com' },
-            items: itemsInCart.map(item => ({ id: item.id, quantity: item.quantity, price: item.price })),
-            total: cartTotal,
-            date: firebase.firestore.FieldValue.serverTimestamp(),
-        };
+    async function createOrder({ name, phone, email, paymentMethod }) {
+        if (itemsInCart.length > 0 && paymentMethod) {
+            const newOrder = {
+                buyer: { name: name, phone: phone, email: email },
+                items: itemsInCart.map(item => ({ id: item.id, quantity: item.quantity, price: item.price })),
+                total: cartTotal,
+                paymentMethod: paymentMethod,
+                date: firebase.firestore.FieldValue.serverTimestamp(),
+            };
 
-        const db = getFirestore();
-        const batch = db.batch();
+            const db = getFirestore();
+            const orders = db.collection('orders');
 
-        //Get a firestore items
-        const itemQueryByManyIds = await db.collection('items')
-            .where(firebase.firestore.FieldPath.documentId(), 'in', itemsInCart.map(item=>item.id))
-            .get();
-        //const items = itemQueryByManyIds.docs.map(d => ({ id: d.id, ...d.data() }));
+            //Store new order
+            orders.add(newOrder).then(({ id }) => {
+                setOrderId(id);
+            });
 
-        const itemDoc = itemQueryByManyIds.docs[0];
-        const res = await itemDoc.ref.update({ stock: itemDoc.data().stock - 1})
 
-        // itemQueryByManyIds.docs.forEach(itemDoc => {
-        //     itemDoc.update({ stock: itemDoc.data().stock - 1}) //toDo menos la cantidad del carrito
-        // });
+            // //Update stock
+            for (const item of newOrder.items) {
+                const docRef = db.collection('items').doc(item.id);
+                await docRef.get().then((doc) => {
+                    docRef.update({ stock: doc.data().stock - item.quantity })
+                })
+            }
 
-        const orders = db.collection('orders');
-
-        //batch.update(doc1, { field: 'newField' })
-
-        // try {
-        //     const { id } = await orders.add(newOrder);
-        //     console.log('Order created with id: ' + id);
-        // } catch (error) {
-        //     console.log('error creating order');
-        //     console.log(error);
-        // }
+            flushCart();
+            setPurchaseComplete(true);
+        }
     }
 
     const styles = {
+        container: {
+            padding: 20,
+        },
         cartListContainer: {
             minHeight: '60vh',
             padding: 20,
@@ -56,23 +58,42 @@ export default function Cart() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+        },
+        purchaseCompleteContainer: {
+            minHeight: '60vh',
+            padding: 20,
+            marginTop: 20,
+            display: 'flex',
+            flexDirection: 'column',
         }
     }
 
     return (
         <Grid
             container
-            spacing={0}
+            spacing={3}
             alignItems="center"
-            justify="center">
-            <Grid item xs={12} sm={8}>
-                <Paper elevation={3} style={styles.cartListContainer}>
-                    <CartItemList />
-                </Paper>
-                <Paper>
-                    <Button onClick={createOrder}>Crear orden</Button>
-                </Paper>
-            </Grid>
+            justify="center"
+            style={styles.container}
+            alignItems='stretch'>
+            {purchaseComplete ?
+                <Grid item xs={12} sm={6}>
+                    <Paper elevation={3} style={styles.purchaseCompleteContainer} >
+                        <PurchaseComplete id={orderId} />
+                    </Paper>
+                </Grid> :
+                <>
+                    <Grid item xs={12} sm={6}>
+                        <Paper elevation={3} style={styles.cartListContainer}>
+                            <CartItemList />
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Paper elevation={3} style={styles.cartListContainer}>
+                            <Checkout onConfirm={createOrder} />
+                        </Paper>
+                    </Grid>
+                </>}
         </Grid>
     );
 }

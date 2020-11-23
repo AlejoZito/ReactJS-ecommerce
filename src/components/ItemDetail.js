@@ -47,16 +47,16 @@ export default function ItemDetail({ itemData }) {
     const [detailData, setDetailData] = useState({});
     const [addedToCart, setAddedToCart] = useState(false);
     const [initialCount, setInitialCount] = useState(1);
+    const [stock, setStock] = useState(1);
 
     const { itemsInCart, add } = useCartContext();
 
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
 
-    const stock = 20;
-
     useEffect(() => {
         setDetailData(itemData);
+        setStock(itemData.stock);
         
         const foundItem = itemsInCart.find(el=>el.id == itemData.id);
         if(foundItem){
@@ -96,7 +96,9 @@ export default function ItemDetail({ itemData }) {
                 <Typography variant="body2" component="p">
                     {detailData.description}
                 </Typography>
-
+                <Typography variant="body2" component="p">
+                    Stock: {detailData.stock} u.
+                </Typography>
                 {
                     addedToCart ?
                         <Link className={classes.cartLink} to='/cart'><Button>Terminar mi compra</Button></Link>

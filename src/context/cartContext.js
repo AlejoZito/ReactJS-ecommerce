@@ -35,6 +35,12 @@ export const CartProvider = ({ children, defaultValue, initialValue }) => {
         }
     }
 
+    function flushCart(){
+        setItemsInCart([]);
+        setTotalItemCount(0);
+        setCartTotal(0);
+    }
+
     //Actualizar cantidad total al modificar el carrito
     function updateCounters(items) {
         let countTotal = 0;
@@ -49,7 +55,7 @@ export const CartProvider = ({ children, defaultValue, initialValue }) => {
 
     //Nuestro almacen de estado de la compra
     //Funciona como nuestra propia API
-    return <CartContext.Provider value={{ itemsInCart, totalItemCount, cartTotal, add, remove }}>
+    return <CartContext.Provider value={{ itemsInCart, totalItemCount, cartTotal, add, remove, flushCart }}>
         {children}
     </CartContext.Provider>
 }
