@@ -3,6 +3,7 @@ import ItemDetail from './ItemDetail'
 import data from '../mockData/itemData.json'
 import { useParams } from 'react-router-dom'
 import { getFirestore } from '../firebase'
+import { CircularProgress, Typography } from '@material-ui/core'
 
 const fetchDetailData = function (id) {
     return new Promise((res, rej) => {
@@ -18,7 +19,7 @@ export default function ItemDetailContainer() {
     let { id } = useParams();
 
     const [loading, setLoading] = useState(false);
-    const [detailData, setDetailData] = useState({});
+    const [detailData, setDetailData] = useState(null);
 
     useEffect(() => {
         setLoading(true);
@@ -30,17 +31,33 @@ export default function ItemDetailContainer() {
         item.get().then((doc) => {
             if (!doc.exists) {
                 console.log('no results');
+            } else {
+                setDetailData({ id: doc.id, ...doc.data() });
             }
-            console.log(doc.data())
-            setDetailData({ id: doc.id, ...doc.data() });
-        }).catch( err =>{
+        }).catch(err => {
             console.log(err);
-        }).finally(()=>{
+        }).finally(() => {
             setLoading(false);
         })
     }, [id]); //Refresh on id change
 
-    return <>
-        <ItemDetail itemData={detailData} />
-    </>
+    return (
+        <>
+            {
+                loading ?
+                    <CircularProgress />
+                    :
+                    <>
+                        {
+                            detailData ?
+                                <ItemDetail itemData={detailData} />
+                                :
+                                <Typography color="textSecondary">
+                                    No encontramos el producto
+                                </Typography>
+                        }
+                    </>
+            }
+        </>
+    )
 }

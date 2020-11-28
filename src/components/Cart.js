@@ -23,6 +23,7 @@ export default function Cart() {
                 total: cartTotal,
                 paymentMethod: paymentMethod,
                 date: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'generada'
             };
 
             const db = getFirestore();
@@ -44,6 +45,8 @@ export default function Cart() {
 
             flushCart();
             setPurchaseComplete(true);
+        } else{
+            alert("No tenés items en el carrito");
         }
     }
 

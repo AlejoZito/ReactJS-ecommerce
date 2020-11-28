@@ -62,15 +62,15 @@ export default function CartItemList() {
                                             />
                                         </ListItemAvatar>
                                         <ListItemText id={labelId} primary={item.title} />
-                                        <ListItemText 
-                                            primary={`$: ${item.quantity * item.price}`} 
-                                            secondary={`Cantidad: ${item.quantity}`} 
+                                        <ListItemText
+                                            primary={`$: ${item.quantity * item.price}`}
+                                            secondary={`Cantidad: ${item.quantity}`}
                                             style={styles.listItemQuantity}
-                                            primaryTypographyProps={{color:'secondary'}} />
+                                            primaryTypographyProps={{ color: 'secondary' }} />
                                         <ListItemSecondaryAction>
-                                            <IconButton onClick={() => { onRemove(item.id) }} 
-                                            edge="end" aria-label="delete"
-                                            color="primary">
+                                            <IconButton onClick={() => { onRemove(item.id) }}
+                                                edge="end" aria-label="delete"
+                                                color="primary">
                                                 <CloseIcon />
                                             </IconButton>
                                         </ListItemSecondaryAction>
@@ -79,8 +79,7 @@ export default function CartItemList() {
                             })}
                         </List>
                         <div style={styles.total}>
-                        <Typography variant="h5" gutterBottom color='secondary'>Total: ${cartTotal}</Typography>
-                            <Button variant="contained" color="primary">Confirmar</Button>
+                            <Typography variant="h5" gutterBottom color='secondary'>Total: ${cartTotal}</Typography>
                         </div>
                     </>
             }

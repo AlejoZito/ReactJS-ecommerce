@@ -19,6 +19,7 @@ export default function Checkout({ onConfirm }) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [emailConfirmation, setEmailConfirmation] = useState('')
     const [phone, setPhone] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [cardExpiration, setCardExpiration] = useState('');
@@ -34,18 +35,31 @@ export default function Checkout({ onConfirm }) {
         switch (payment) {
             case 'visa':
             case 'mastercard':
-                return {
-                    method: payment,
-                    cardNumber: cardNumber,
-                    cardExpiration: cardExpiration
+                if (cardNumber != "" && cardExpiration != "") {
+                    return {
+                        method: payment,
+                        cardNumber: cardNumber,
+                        cardExpiration: cardExpiration
+                    }
                 }
                 break;
             case 'paypal':
-                return {
-                    method: payment,
-                    username: paypalUser
+                if (paypalUser != "") {
+                    return {
+                        method: payment,
+                        username: paypalUser
+                    }
                 }
         }
+        return null;
+    }
+
+    function isValid() {
+        return name != "" &&
+            phone != "" &&
+            email != "" &&
+            email == emailConfirmation &&
+            getPaymentMethod() != null
     }
 
     function onClickConfirm() {
@@ -60,9 +74,10 @@ export default function Checkout({ onConfirm }) {
     return (
         <Box display="flex" flexDirection="column" justifyContent="center">
             <form className={classes.root} noValidate autoComplete="off" display="flex" flexGrow={1}>
-                <TextField value={name} onInput={e=>setName(e.target.value)} id="outlined-basic" label="Nombre" variant="outlined" fullWidth margin="normal" />
-                <TextField value={phone} onInput={e=>setPhone(e.target.value)} id="outlined-basic" label="Teléfono" variant="outlined" fullWidth margin="normal" />
-                <TextField value={email} onInput={e=>setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal" />
+                <TextField value={name} onInput={e => setName(e.target.value)} id="outlined-basic" label="Nombre" variant="outlined" fullWidth margin="normal" />
+                <TextField value={phone} onInput={e => setPhone(e.target.value)} id="outlined-basic" label="Teléfono" variant="outlined" fullWidth margin="normal" />
+                <TextField value={email} onInput={e => setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal" />
+                <TextField value={emailConfirmation} onInput={e => setEmailConfirmation(e.target.value)} id="outlined-basic" label="Confirmación de Email" variant="outlined" fullWidth margin="normal" />
                 <ButtonGroup aria-label="outlined primary button group" fullWidth>
                     <Button onClick={() => onSetPaymentMethod('visa')}
                         variant="contained"
@@ -88,15 +103,15 @@ export default function Checkout({ onConfirm }) {
                 {
                     (payment == 'visa' || payment == 'mastercard') ?
                         <>
-                            <TextField value={cardNumber} onInput={e=>setCardNumber(e.target.value)} id="outlined-basic" label='Número de tarjeta' variant="outlined" fullWidth margin="normal" />
-                            <TextField value={cardExpiration} onInput={e=>setCardExpiration(e.target.value)} id="outlined-basic" label='Vencimiento' variant="outlined" fullWidth margin="normal" />
+                            <TextField value={cardNumber} onInput={e => setCardNumber(e.target.value)} id="outlined-basic" label='Número de tarjeta' variant="outlined" fullWidth margin="normal" />
+                            <TextField value={cardExpiration} onInput={e => setCardExpiration(e.target.value)} id="outlined-basic" label='Vencimiento' variant="outlined" fullWidth margin="normal" />
                         </>
                         :
-                        <TextField value={paypalUser} onInput={e=>setPaypalUser(e.target.value)} id="outlined-basic" label='Usuario paypal' variant="outlined" fullWidth margin="normal" />
+                        <TextField value={paypalUser} onInput={e => setPaypalUser(e.target.value)} id="outlined-basic" label='Usuario paypal' variant="outlined" fullWidth margin="normal" />
 
                 }
             </form>
-            <Button variant="contained" color="primary" onClick={onClickConfirm}>Confirmar</Button>
+            <Button variant="contained" color="primary" disabled={!isValid()} onClick={onClickConfirm}>Confirmar</Button>
         </Box >
     );
 }
