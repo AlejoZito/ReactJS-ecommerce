@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
-import data from '../mockData/itemData.json'
-import { CircularProgress } from '@material-ui/core';
 import ItemListSkeleton from './ItemListSkeleton';
-
-//Fetch data promise
-const getItems = () => {
-    return new Promise((res, rej) => {
-        setTimeout(() => res(data), 2000);
-    });
-}
+import { useParams } from 'react-router-dom'
+import { getFirestore } from '../firebase'
 
 function ItemListContainer({ title, onAdd }) {
+
+    //Routing params
+    let { categoryId } = useParams();
 
     const [loading, setLoading] = useState(false);
     const [itemList, setItemList] = useState([])
 
     useEffect(() => {
         setLoading(true);
-        getItems().then(result => {
-            setItemList(result);
+        const db = getFirestore();
+        const itemCollection = db.collection("items");
+        const filteredCollection = categoryId ? itemCollection.where("category", "==", categoryId) : itemCollection;
+
+        filteredCollection.get().then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+                console.log('no results');
+            }
+            const filteredItems = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setItemList(filteredItems);
         }, err => {
             console.log(err);
         }).finally(result => {
             setLoading(false);
         });
-    }, []);
+    }, [categoryId]);
 
     return (
         <>

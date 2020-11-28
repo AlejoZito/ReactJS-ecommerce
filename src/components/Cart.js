@@ -1,89 +1,102 @@
 import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Checkbox from '@material-ui/core/Checkbox';
-import Avatar from '@material-ui/core/Avatar';
-import data from '../mockData/itemData.json'
+import firebase from 'firebase'
+import '@firebase/firestore';
+import { Button, Grid, Paper } from '@material-ui/core';
+import CartItemList from './CartItemList'
+import { getFirestore } from '../firebase';
+import { useCartContext } from '../context/cartContext';
+import Checkout from './Checkout';
+import PurchaseComplete from './PurchaseComplete';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
 
-const fetchDetailData = function (id) {
-    return new Promise((res, rej) => {
-        res(data.find((item) => item.id == id));
-    });
-}
+export default function Cart() {
 
-export default function Cart({ itemList }) {
-    const [fetchedItemList, setFetchedItemList] = useState([]);
-    const classes = useStyles();
+    const [purchaseComplete, setPurchaseComplete] = useState(false);
+    const [orderId, setOrderId] = useState('');
+    const { itemsInCart, cartTotal, flushCart } = useCartContext();
 
-    useEffect(() => {
+    async function createOrder({ name, phone, email, paymentMethod }) {
+        if (itemsInCart.length > 0 && paymentMethod) {
+            const newOrder = {
+                buyer: { name: name, phone: phone, email: email },
+                items: itemsInCart.map(item => ({ id: item.id, quantity: item.quantity, price: item.price })),
+                total: cartTotal,
+                paymentMethod: paymentMethod,
+                date: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'generada'
+            };
 
-        //ToDo falta mostrar cantidades
+            const db = getFirestore();
+            const orders = db.collection('orders');
 
-        const newList = [];
-        const fetchPromiseList = [];
+            //Store new order
+            orders.add(newOrder).then(({ id }) => {
+                setOrderId(id);
+            });
 
-        for (let item in itemList) {
-            //Only fetch new items
-            const foundItem = fetchedItemList.find(i => i.id == item);
-            if (foundItem) {
-                newList.push(foundItem);
-            } else {
-                const fetchPromise = fetchDetailData(item);
-                fetchPromiseList.push(fetchPromise);
+
+            // //Update stock
+            for (const item of newOrder.items) {
+                const docRef = db.collection('items').doc(item.id);
+                await docRef.get().then((doc) => {
+                    docRef.update({ stock: doc.data().stock - item.quantity })
+                })
             }
+
+            flushCart();
+            setPurchaseComplete(true);
+        } else{
+            alert("No tenés items en el carrito");
         }
+    }
 
-        Promise.allSettled(fetchPromiseList).then(
-            (results) => {
-                console.log(results)
-                results.forEach((result) => {
-                    console.log(result);
-                    newList.push(result.value);
-                    ;
-                });
-            }
-        ).finally(() => setFetchedItemList(newList))
-
-    }, [itemList]);
+    const styles = {
+        container: {
+            padding: 20,
+        },
+        cartListContainer: {
+            minHeight: '60vh',
+            padding: 20,
+            marginTop: 20,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+        },
+        purchaseCompleteContainer: {
+            minHeight: '60vh',
+            padding: 20,
+            marginTop: 20,
+            display: 'flex',
+            flexDirection: 'column',
+        }
+    }
 
     return (
-        <List className={classes.root}>
-            {fetchedItemList.map((item) => {
-                console.log(item);
-                const labelId = `checkbox-list-secondary-label-${item.id}`;
-                return (
-                    <ListItem key={item.id} button>
-                        <ListItemAvatar>
-                            <Avatar
-                                alt={`Avatar n°${item.id}`}
-                                src={item.img}
-                                variant={'rounded'}
-                            />
-                        </ListItemAvatar>
-                        <ListItemText id={labelId} primary={item.title} />
-                        <ListItemSecondaryAction>
-                            {/* <Checkbox
-                                edge="end"
-                                onChange={handleToggle(value)}
-                                checked={checked.indexOf(value) !== -1}
-                                inputProps={{ 'aria-labelledby': labelId }}
-                            /> */}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                );
-            })}
-        </List>
+        <Grid
+            container
+            spacing={3}
+            alignItems="center"
+            justify="center"
+            style={styles.container}
+            alignItems='stretch'>
+            {purchaseComplete ?
+                <Grid item xs={12} sm={6}>
+                    <Paper elevation={3} style={styles.purchaseCompleteContainer} >
+                        <PurchaseComplete id={orderId} />
+                    </Paper>
+                </Grid> :
+                <>
+                    <Grid item xs={12} sm={6}>
+                        <Paper elevation={3} style={styles.cartListContainer}>
+                            <CartItemList />
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Paper elevation={3} style={styles.cartListContainer}>
+                            <Checkout onConfirm={createOrder} />
+                        </Paper>
+                    </Grid>
+                </>}
+        </Grid>
     );
 }

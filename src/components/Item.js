@@ -14,26 +14,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Item({ data, onAdd, cols, ...other }) {
-    const [itemData, setItemData] = useState({});
-
-    useEffect(() => {
-        setItemData(data);
-    }, []);
 
     const classes = useStyles();
     return (
-         <GridListTile key={itemData.id} cols={cols || 1} {...other}>
-            <img src={itemData.img} alt={itemData.title} />
+         <GridListTile key={data.id} cols={cols || 1} {...other}>
+            <img src={data.img} alt={data.title} />
             <GridListTileBar
-                title={itemData.title}
-                subtitle={<span>$: {itemData.price}</span>}
+                title={data.title}
+                subtitle={<span>$: {data.price}</span>}
                 actionIcon={
                     <IconButton
-                        aria-label={`info about ${itemData.title}`}
+                        aria-label={`info about ${data.title}`}
                         className={classes.icon}
                         onClick={onAdd}>
                         <AddShoppingCartIcon />
-                        <Link to={`/detail/${itemData.id}`}>Un link</Link>
+                        <Link to={`/detail/${data.id}`}>Un link</Link>
                     </IconButton>
                 }
             />
