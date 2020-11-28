@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import './App.css';
 import NavBar from './components/NavBar'
 import ItemListContainer from './components/ItemListContainer';
-import ItemCount from './components/ItemCount'
 import ItemDetailContainer from "./components/ItemDetailContainer";
 import Cart from "./components/Cart";
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { CartProvider } from "./context/cartContext";
-
-const itemList = []
 
 function App() {
   return (

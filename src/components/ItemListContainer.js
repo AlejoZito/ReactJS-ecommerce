@@ -33,7 +33,7 @@ function ItemListContainer({ title, onAdd }) {
 
     return (
         <>
-            { loading ? <ItemListSkeleton/> : <ItemList title="Productos" itemDataList={itemList} onAdd={onAdd} />}
+            { loading ? <ItemListSkeleton /> : <ItemList itemDataList={itemList} onAdd={onAdd} />}
         </>
     );
 }

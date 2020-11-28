@@ -8,11 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
     root: {
-        width:400,
+        width:'100%',
         display: 'flex', 
         alignItems: 'center', 
         justifyContent:'center',

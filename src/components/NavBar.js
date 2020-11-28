@@ -2,11 +2,8 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import CartWidget from './CartWidget'
 import { Link } from 'react-router-dom'
-import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -52,16 +49,13 @@ function NavBar({ itemCount }) {
             <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Link to='/'>
-                        <img className={classes.toolbarTitle} src="/casio-logo.svg" />
+                        <img className={classes.toolbarTitle} alt="" src="/casio-logo.svg" />
                     </Link>
                     <nav>
                         {sections.map((section) => (
-                            <Link to={`/categories/${section.category}`} className={classes.link}>{section.title}</Link>
+                            <Link key={section.category} to={`/categories/${section.category}`} className={classes.link}>{section.title}</Link>
                         ))}
                     </nav>
-                    {/* <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                    Login
-                </Button> */}
                     <Link className={classes.cartLink} to='/cart'>
                         <CartWidget itemCount={itemCount} />
                     </Link>

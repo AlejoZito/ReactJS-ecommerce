@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import Item from './Item'
 import ListSubheader from '@material-ui/core/ListSubheader';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         height: 600,
     },
     media: {
-        height: 140
+        height: 146
     },
     textLine: {
         height: 40

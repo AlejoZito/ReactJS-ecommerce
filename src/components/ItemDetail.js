@@ -2,26 +2,35 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ItemCount from './ItemCount';
 import { Link } from 'react-router-dom'
 import { useCartContext } from '../context/cartContext';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
-        minWidth: 275,
-        maxWidth: 800,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+        width: 800,
     },
     title: {
-        fontSize: 22,
+        position: 'absolute',
+        zIndex: 999,
+        top: 0,
+        left: 20,
+        color: 'rgb(63 81 181)',
+        fontSize: 40,
+        fontWeight: 600,
+    },
+    price: {
+        position: 'absolute',
+        zIndex: 999,
+        bottom: 0,
+        right: 20,
+        color: 'white',
+        textShadow: '3px 5px 4px #00000061',
+        fontSize: 40,
         fontWeight: 600,
     },
     pos: {
@@ -37,7 +46,7 @@ const useStyles = makeStyles({
         top: 0,
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(to top, rgba(224,64,251,1) 11%, rgba(0,212,255,0) 34%)',
+        background: 'linear-gradient(to top, rgba(245 0 87) 11%, rgba(0,212,255,0) 34%)',
     }
 });
 
@@ -52,14 +61,13 @@ export default function ItemDetail({ itemData }) {
     const { itemsInCart, add } = useCartContext();
 
     const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
 
     useEffect(() => {
         setDetailData(itemData);
         setStock(itemData.stock);
-        
-        const foundItem = itemsInCart.find(el=>el.id == itemData.id);
-        if(foundItem){
+
+        const foundItem = itemsInCart.find(el => el.id == itemData.id);
+        if (foundItem) {
             setInitialCount(foundItem.quantity);
         }
 
@@ -83,32 +91,41 @@ export default function ItemDetail({ itemData }) {
                 className={classes.media}
                 image={detailData.img}
                 title={detailData.title}
-                children={<div className={classes.mediaOverlay} />}
+                children={
+                    <>
+                        <Typography className={classes.title} color="textPrimary">
+                            {detailData.title}
+                        </Typography>
+                        <Typography className={classes.price} variant="h5" component="h2">
+                            $ {detailData.price}
+                        </Typography>
+                        <div className={classes.mediaOverlay} />
+                    </>}
             />
 
             <CardContent>
-                <Typography className={classes.title} color="textPrimary">
-                    {detailData.title}
-                </Typography>
-                <Typography variant="h5" component="h2">
-                    $ {detailData.price}
-                </Typography>
-                <Typography variant="body2" component="p">
-                    {detailData.description}
-                </Typography>
-                <Typography variant="body2" component="p">
-                    Stock: {detailData.stock} u.
-                </Typography>
-                {
-                    addedToCart ?
-                        <Link className={classes.cartLink} to='/cart'><Button>Terminar mi compra</Button></Link>
-                        :
-                        <ItemCount id={itemData.id} stock={stock} initial={initialCount} onAdd={onAdd} />
-                }
+
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={9}>
+                        <Typography variant="subtitle1" component="p">
+                            {detailData.description}
+                        </Typography>
+                        <Typography variant="caption" component="p">
+                            Stock: {detailData.stock} u.
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                        {
+                            addedToCart ?
+                                <Link className={classes.cartLink} to='/cart'><Button>Terminar mi compra</Button></Link>
+                                :
+                                <ItemCount id={itemData.id} stock={stock} initial={initialCount} onAdd={onAdd} />
+                        }
+                    </Grid>
+                </Grid>
+
+
             </CardContent>
-            <CardActions>
-                <Button size="small">Learn More</Button>
-            </CardActions>
         </Card>
     )
 }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import firebase from 'firebase'
 import '@firebase/firestore';
-import { Button, Grid, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import CartItemList from './CartItemList'
 import { getFirestore } from '../firebase';
 import { useCartContext } from '../context/cartContext';
@@ -75,7 +75,6 @@ export default function Cart() {
         <Grid
             container
             spacing={3}
-            alignItems="center"
             justify="center"
             style={styles.container}
             alignItems='stretch'>

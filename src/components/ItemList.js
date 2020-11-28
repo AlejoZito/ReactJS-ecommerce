@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Item from './Item'
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -27,10 +27,10 @@ export default function ItemList({ title, itemDataList, onAdd }) {
         <div className={classes.root}>
             <GridList cellHeight={180} className={classes.gridList}>
                 <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                    <ListSubheader component="div">{title}</ListSubheader>
+                    <ListSubheader component="div"></ListSubheader>
                 </GridListTile>
                 {                    
-                    itemDataList.map((item) => <Item data={item} onAdd={onAdd} cols={1} {...item} />)
+                    itemDataList.map((item) => <Item key={item.id} data={item} onAdd={onAdd} cols={1} {...item} />)
                 }
             </GridList>
         </div>

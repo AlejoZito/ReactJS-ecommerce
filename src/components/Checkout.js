@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import '@firebase/firestore';
-import { Box, Button, Grid, makeStyles, ButtonGroup, TextField, Avatar } from '@material-ui/core';
-import { CreditCard, LocalAtm, Money } from '@material-ui/icons';
+import { Box, Button, makeStyles, ButtonGroup, TextField } from '@material-ui/core';
+import { CreditCard, LocalAtm } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Checkout({ onConfirm }) {
 
     const [payment, setPayment] = useState('visa');
-    const [paymentLabel, setPaymentLabel] = useState('');
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -73,7 +72,7 @@ export default function Checkout({ onConfirm }) {
 
     return (
         <Box display="flex" flexDirection="column" justifyContent="center">
-            <form className={classes.root} noValidate autoComplete="off" display="flex" flexGrow={1}>
+            <form className={classes.root} noValidate autoComplete="off" display="flex">
                 <TextField value={name} onInput={e => setName(e.target.value)} id="outlined-basic" label="Nombre" variant="outlined" fullWidth margin="normal" />
                 <TextField value={phone} onInput={e => setPhone(e.target.value)} id="outlined-basic" label="Teléfono" variant="outlined" fullWidth margin="normal" />
                 <TextField value={email} onInput={e => setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal" />

@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import ItemDetail from './ItemDetail'
-import data from '../mockData/itemData.json'
+import ItemDetailSkeleton from './ItemDetailSkeleton'
 import { useParams } from 'react-router-dom'
 import { getFirestore } from '../firebase'
-import { CircularProgress, Typography } from '@material-ui/core'
-
-const fetchDetailData = function (id) {
-    return new Promise((res, rej) => {
-        setTimeout(() => {
-            res(data.find((item) => item.id == id))
-        }, 1000);
-    });
-}
+import { Grid, Typography } from '@material-ui/core'
 
 export default function ItemDetailContainer() {
 
@@ -41,11 +33,23 @@ export default function ItemDetailContainer() {
         })
     }, [id]); //Refresh on id change
 
+    const styles = {
+        container: {
+            padding: 20,
+        },
+    }
+
     return (
-        <>
+        <Grid
+            container
+            spacing={3}
+            justify="center"
+            style={styles.container}
+            alignItems='stretch'>
             {
+                
                 loading ?
-                    <CircularProgress />
+                <ItemDetailSkeleton />
                     :
                     <>
                         {
@@ -58,6 +62,6 @@ export default function ItemDetailContainer() {
                         }
                     </>
             }
-        </>
+            </Grid>
     )
 }
