@@ -4,34 +4,40 @@ Proyecto de e-shop desarrollado en react para el [curso de ReactJs en Coderhouse
 
 Se incluye el file env.local para facilitar correrlo en el entorno local.
 
+## Preview
+
+[Link al video](https://youtu.be/EZezYIJc8-Y)
+
 ## Vistas
 
-Listado
+**Listado**
 
 ![](http://alejozito.com/coderhouse_react/gallery.JPG)
 
-Detalle
+**Detalle**
 
 Se visualizan todos los campos de la entidad item, incluido el stock. La lib material ui genera un warning que no logré resolver con el componente item count, por haber incluido un textbox dentro del button group.
 
 ![](http://alejozito.com/coderhouse_react/detalle.JPG)
 
-Navbar
+**Navbar**
 
 ![](http://alejozito.com/coderhouse_react/navbar.JPG)
 
-Carrito lleno
+**Carrito lleno**
 
 Esta vista es la más compleja en cuanto a información en la pantalla. Permite eliminar items del carrito (no modificar sus cantidades) e ingresar datos para realizar la compra. Un nice to have sería incluir pequeños mensajes de validación en los inputs para indicar cuando falta completar algún campo o hay valores incorrectos, por ejemplo para el mail.
 Se incluyó un selector de modo de pago bastante sencillo, para incluir renderizado condicional (cuando se elige paypal, cambian los campos a ingresar)
 
 ![](http://alejozito.com/coderhouse_react/cart_full.JPG)
 
-Carrito vacío
+**Carrito vacío**
 
 ![](http://alejozito.com/coderhouse_react/cart_empty.JPG)
 
-Compra exitosa
+**Compra exitosa**
+
+Al realizar una compra, el carrito se vacía y puede reiniciarse el proceso nuevamente.
 
 ![](http://alejozito.com/coderhouse_react/purchaseok.JPG)
 
@@ -43,6 +49,8 @@ También se incluyó material-ui-labs para el componente Skeleton, que permite r
 ### `react router`
 Esta lib es la que facilita la navegación mediante urls de los diferentes componentes.
 
+### `firestore db`
+Nos permite acceder a los servicios de google.
 
 ## Iniciar proyecto
 
