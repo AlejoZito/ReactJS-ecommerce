@@ -1,12 +1,6 @@
-# CODER COMMERCE
+# Coder Commerce
 
-Proyecto de e-shop desarrollado en react para el [curso de ReactJs en Coderhouse](https://www.coderhouse.com/online/reactjs)
-
-Se incluye el file env.local para facilitar correrlo en el entorno local.
-
-## Preview
-
-[Link al video](https://youtu.be/EZezYIJc8-Y)
+This e-shop project was developed in react as a final challenge for the [ReactJs course at CoderHouse]((https://www.coderhouse.com/online/reactjs)
 
 ## Vistas
 
