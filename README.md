@@ -1,52 +1,34 @@
 # Coder Commerce
 
-This e-shop project was developed in react as a final challenge for the [ReactJs course at CoderHouse]((https://www.coderhouse.com/online/reactjs)
+This e-shop project was developed in react as a final challenge for the [ReactJs course at CoderHouse](https://www.coderhouse.com/online/reactjs)
+It features a list view that can be filtered by categories, a detail view and a cart/checkout view. The project is connected to firestore for data persistence
 
 ## Vistas
 
-**Listado**
+**List view**
 
 ![](http://alejozito.com/coderhouse_react/gallery.JPG)
 
-**Detalle**
-
-Se visualizan todos los campos de la entidad item, incluido el stock. La lib material ui genera un warning que no logré resolver con el componente item count, por haber incluido un textbox dentro del button group.
+**Detail view**
 
 ![](http://alejozito.com/coderhouse_react/detalle.JPG)
 
-**Navbar**
+**Navbar** (with cart widget)
 
 ![](http://alejozito.com/coderhouse_react/navbar.JPG)
 
-**Carrito lleno**
-
-Esta vista es la más compleja en cuanto a información en la pantalla. Permite eliminar items del carrito (no modificar sus cantidades) e ingresar datos para realizar la compra. Un nice to have sería incluir pequeños mensajes de validación en los inputs para indicar cuando falta completar algún campo o hay valores incorrectos, por ejemplo para el mail.
-Se incluyó un selector de modo de pago bastante sencillo, para incluir renderizado condicional (cuando se elige paypal, cambian los campos a ingresar)
+**Cart & checkout**
 
 ![](http://alejozito.com/coderhouse_react/cart_full.JPG)
 
-**Carrito vacío**
-
-![](http://alejozito.com/coderhouse_react/cart_empty.JPG)
-
-**Compra exitosa**
-
-Al realizar una compra, el carrito se vacía y puede reiniciarse el proceso nuevamente.
-
-![](http://alejozito.com/coderhouse_react/purchaseok.JPG)
-
-## Librerias
+## Libraries
 ### `material-ui`
-Se utilizó esta lib para agilizar la implementación del layout y de los estilos, ya que brinda componentes de react según las reglas de estilo de Material Design.
-También se incluyó material-ui-labs para el componente Skeleton, que permite renderizar unos placeholders animados cuando los requests al servidor todavía no fueron satisfechos.
 
 ### `react router`
-Esta lib es la que facilita la navegación mediante urls de los diferentes componentes.
 
 ### `firestore db`
-Nos permite acceder a los servicios de google.
 
-## Iniciar proyecto
+## Run project
 
 ### `npm start`
 
